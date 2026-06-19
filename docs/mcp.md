@@ -1,6 +1,20 @@
 # MCP
 
-Incur exposes the CLI command tree as MCP tools:
+Incur exposes the CLI command tree as MCP tools.
+
+Run MCP without a global install:
+
+```bash
+npx -y homekit-cli --mcp
+```
+
+Register MCP without a global install:
+
+```bash
+npx homekit-cli mcp add
+```
+
+If installed globally:
 
 ```bash
 homekit --mcp
@@ -32,14 +46,14 @@ Example files:
 
 Both examples expose the same MCP server. HomeKit writes are still gated by command schemas and provider-side checks; the profile label is for agent/operator clarity, not a permission bypass.
 
-For users installing through npm, setup should be:
+For users running through npm without a global install, setup should be:
 
 ```bash
 npx homekit-cli bridge setup
 npx homekit-cli mcp add
 ```
 
-The MCP server command is:
+The MCP server command without a global install is:
 
 ```bash
 npx -y homekit-cli --mcp

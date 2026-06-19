@@ -28,6 +28,37 @@ flowchart LR
 
 Install and launch [HomeClaw](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12) first, then approve HomeKit permission in HomeClaw. Do not configure HomeClaw's bundled CLI or MCP server.
 
+Run without installing:
+
+```bash
+npx homekit-cli bridge setup --format json
+npx homekit-cli status --format json
+```
+
+Or install globally:
+
+```bash
+npm i -g homekit-cli
+homekit bridge setup --format json
+homekit status --format json
+```
+
+Run as MCP without a global install:
+
+```bash
+npx -y homekit-cli --mcp
+```
+
+Install the published workflow skill:
+
+```bash
+npx skills add l3wi/homekit-cli --skill homekit
+```
+
+## Development
+
+Run from a local checkout:
+
 ```bash
 bun install
 bun run build
@@ -51,12 +82,6 @@ Install the repo-local skill during development:
 
 ```bash
 npx skills add ./skills --skill homekit --copy -y
-```
-
-Published install target:
-
-```bash
-npx skills add l3wi/homekit-cli --skill homekit
 ```
 
 ## CLI/MCP Surface
@@ -97,7 +122,7 @@ Signing, notarization, provisioning profiles, app groups, and native release scr
 
 If HomeClaw is not installed or not running, the CLI exits with install guidance, the expected socket path, and the App Store link.
 
-## Development
+## Project Structure
 
 Project structure:
 
