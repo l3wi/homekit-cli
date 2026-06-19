@@ -20,8 +20,8 @@ Most mutation commands also accept `--dry-run` to validate and preview without a
 
 ## Read-Only Commands
 
-- `homekit status`: bridge connectivity, HomeKit readiness, and cache status.
-- `homekit homes list`: homes visible to the signed bridge app.
+- `homekit status`: provider connectivity, HomeKit readiness, and cache status.
+- `homekit homes list`: homes visible to the configured provider.
 - `homekit rooms list`: rooms and accessory counts.
 - `homekit accessories list`: accessories.
 - `homekit accessories get <accessoryId>`: one accessory with services and characteristics.
@@ -31,16 +31,16 @@ Most mutation commands also accept `--dry-run` to validate and preview without a
 - `homekit automations list`: HomeKit automations.
 - `homekit automations get <automationId>`: one HomeKit automation.
 - `homekit zones list`: zones and room counts.
-- `homekit events list`: recent events observed by the bridge.
+- `homekit events list`: recent events observed by the provider.
 - `homekit device-map`: LLM-friendly home, room, accessory, and characteristic map.
-- `homekit bridge status`: raw bridge capabilities and resolved socket path.
-- `homekit bridge logs`: print the unified-log command for bridge logs.
+- `homekit bridge status`: raw provider capabilities.
+- `homekit bridge logs`: print the unified-log command for provider logs.
 
 ## Actuation
 
 - `homekit accessories control <accessoryId> <characteristic> <value> --allow-actuation`
 
-Actuation requires an exact accessory identifier, a characteristic alias or type, and an explicit value. The bridge writes an audit entry for accepted and rejected actuation requests.
+Actuation requires an exact accessory identifier, a characteristic alias or type, and an explicit value.
 
 ## Structural Mutations
 
@@ -65,6 +65,7 @@ Accessories:
 Scenes:
 
 - `homekit scenes delete <sceneId> --allow-mutation`
+- `homekit scenes trigger <sceneId> --allow-actuation`
 - `homekit scenes import <name> --actions '[...]' --allow-mutation`
 - `homekit scenes update <sceneId> --actions '[...]' --allow-mutation`
 
@@ -99,13 +100,29 @@ Mutating:
 - `homekit automations rewire <automationId> --add-scene-ids <sceneId> --allow-mutation`
 - `homekit automations add-condition <automationId> <accessoryId> <characteristic> <value> --allow-mutation`
 
-## Bridge Management
+## Provider Management
 
-- `homekit bridge setup`: verify bridge installation, launch it, check protocol compatibility, and print next steps.
-- `homekit bridge launch`: launch the bridge app and wait for its socket.
-- `homekit bridge stop`: ask the bridge to stop cleanly.
-- `homekit bridge status`: show bridge capabilities.
+The command group is still named `bridge` for CLI continuity, but on `main` it refers to the configured external HomeKit provider.
+
+- `homekit bridge setup`: verify provider installation, check compatibility, and print next steps.
+- `homekit bridge launch`: launch the configured provider when supported.
+- `homekit bridge stop`: ask the provider to stop when supported.
+- `homekit bridge status`: show provider capabilities.
 - `homekit bridge logs`: print a `log stream` command.
+
+## Webhooks And Triggers
+
+- `homekit webhooks status`
+- `homekit webhooks setup <url> --allow-mutation`
+- `homekit webhooks test`
+- `homekit webhooks reset --allow-mutation`
+- `homekit webhooks log`
+- `homekit webhooks log-stats`
+- `homekit webhooks purge-log --allow-mutation`
+- `homekit triggers list`
+- `homekit triggers add <label> --allow-mutation`
+- `homekit triggers update <triggerId> --allow-mutation`
+- `homekit triggers remove <triggerId> --allow-mutation`
 
 ## MCP And Agent Discovery
 
@@ -120,30 +137,8 @@ The internal Incur `homekit skills` command is disabled for this package. Instal
 npx skills add l3wi/homekit-cli --skill homekit
 ```
 
-## Implementation Status
+## Runtime Availability
 
-Implemented in the bridge:
+The CLI/MCP schema can expose commands before HomeClaw supports every operation. Report provider `NOT_IMPLEMENTED` or unsupported-operation errors honestly and stop; do not simulate HomeKit changes.
 
-- read-only commands
-- accessory control
-- accessory remove
-- room create, rename, remove, assign
-- zone list, create, remove, add-room, remove-room
-- scene delete
-- automation list, get, delete, enable, disable, rewire
-- generic rename
-
-Present in CLI/MCP schema but currently returns `NOT_IMPLEMENTED` from the bridge:
-
-- `homekit scenes import`
-- `homekit scenes update`
-- `homekit automations create`
-- `homekit automations create-time`
-- `homekit automations add-condition`
-
-Excluded intentionally:
-
-- webhook triggers
-- webhook listeners
-- external callback routing
-- TUI or app UI workflows
+The CLI does not provide its own webhook listener, external callback router, TUI, or app UI workflows.

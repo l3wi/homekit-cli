@@ -16,9 +16,10 @@ Read-only commands include:
 - `homekit events list`
 - `homekit device-map`
 
-Actuation command:
+Actuation commands:
 
 - `homekit accessories control <accessoryId> <characteristic> <value> --allow-actuation`
+- `homekit scenes trigger <sceneId> --allow-actuation`
 
 Use exact accessory identifiers for actuation. Do not actuate by broad name, category, room, or search result without a human explicitly choosing the target.
 
@@ -30,7 +31,9 @@ Structural mutation commands require `--allow-mutation`:
 - automation create, create-time, delete, enable, disable, rewire, add-condition
 - accessory remove
 - generic rename
+- webhook setup, reset, purge-log
+- trigger add, update, remove
 
-Use `--dry-run` where available before applying structural changes. The bridge writes audit entries for rejected and accepted mutation requests.
+Use `--dry-run` where available before applying structural changes. Provider-side audit behavior depends on the configured provider.
 
-Webhook triggers are intentionally excluded. This project does not expose a webhook listener or external callback routing layer.
+Webhook configuration and trigger selection are exposed because HomeClaw owns the delivery path. This project does not expose its own webhook listener or external callback routing layer.

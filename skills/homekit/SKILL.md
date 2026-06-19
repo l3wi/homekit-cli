@@ -1,6 +1,6 @@
 ---
 name: homekit
-description: Use the `homekit` CLI and MCP server safely for HomeKit bridge setup, read-only inspection, troubleshooting, explicit accessory control, and structural HomeKit changes. Trigger when an agent needs to inspect or operate HomeKit accessories, rooms, zones, scenes, automations, events, or the HomeKit Bridge app through homekit-cli.
+description: Use the `homekit` CLI and MCP server safely with HomeClaw for HomeKit setup, read-only inspection, troubleshooting, explicit accessory control, webhooks, triggers, and structural HomeKit changes. Trigger when an agent needs to inspect or operate HomeKit accessories, rooms, zones, scenes, automations, events, webhooks, or triggers through homekit-cli.
 ---
 
 # HomeKit
@@ -18,13 +18,13 @@ homekit <command> --schema --format json
 homekit --llms
 ```
 
-Use `--json` for evidence you will parse or compare. Use `--schema --format json` before MCP/tool calls when argument names, output fields, or safety flags are uncertain.
+Use `--format json` for evidence you will parse or compare. Use `--schema --format json` before MCP/tool calls when argument names, output fields, or safety flags are uncertain.
 
 ## Load References
 
 Load only the reference that matches the user request:
 
-- `references/setup-and-troubleshooting.md`: bridge setup, socket readiness, HomeKit permission, logs, stale sockets, MCP install.
+- `references/setup-and-troubleshooting.md`: HomeClaw setup, readiness, HomeKit permission, logs, MCP install.
 - `references/inspection-workflows.md`: homes, rooms, accessories, scenes, automations, zones, event logs, device-map, and anomaly investigation.
 - `references/write-workflows.md`: accessory control, room/zone/scene/automation mutations, exact-id writes, verification, and audit reporting.
 - `references/command-groups.md`: concise command group map and implementation caveats.
@@ -43,31 +43,31 @@ Use `scripts/homekit-readiness.sh` when you need a deterministic local setup/rea
 
 ## Default Flow
 
-1. Check bridge readiness:
+1. Check HomeClaw readiness:
 
    ```bash
-   homekit bridge setup --json
-   homekit status --json
+   homekit bridge setup --format json
+   homekit status --format json
    ```
 
 2. Build context with read-only commands:
 
    ```bash
-   homekit homes list --json
-   homekit rooms list --json
-   homekit accessories list --json
-   homekit scenes list --json
-   homekit automations list --json
-   homekit events list --limit 50 --json
+   homekit homes list --format json
+   homekit rooms list --format json
+   homekit accessories list --format json
+   homekit scenes list --format json
+   homekit automations list --format json
+   homekit events list --limit 50 --format json
    ```
 
 3. Narrow to exact IDs:
 
    ```bash
-   homekit accessories search "<query>" --json
-   homekit accessories get <accessoryId> --json
-   homekit scenes get <sceneId> --json
-   homekit automations get <automationId> --json
+   homekit accessories search "<query>" --format json
+   homekit accessories get <accessoryId> --format json
+   homekit scenes get <sceneId> --format json
+   homekit automations get <automationId> --format json
    ```
 
 4. Before a write, inspect the exact command schema:
@@ -80,8 +80,8 @@ Use `scripts/homekit-readiness.sh` when you need a deterministic local setup/rea
 5. Verify with the narrowest relevant read and recent events:
 
    ```bash
-   homekit accessories get <accessoryId> --json
-   homekit events list --limit 20 --json
+   homekit accessories get <accessoryId> --format json
+   homekit events list --limit 20 --format json
    ```
 
 ## Scenario Routing

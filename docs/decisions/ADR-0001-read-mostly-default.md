@@ -6,8 +6,8 @@ The default CLI and MCP posture is read-mostly inspection. Physical control exis
 
 Structural HomeKit mutations are allowed for deliberate workflows, but they must use specific command names and exact identifiers, and they must require `--allow-mutation`.
 
-Webhook triggers and external callback routing are excluded from the default surface.
+Webhook configuration and trigger selection are available but not part of the read-only default workflow.
 
 ## Consequence
 
-Agents can safely inspect topology and state without hidden writes. Control and structural mutation remain available for deliberate workflows, with separate confirmation flags and bridge-side audit entries.
+Agents can safely inspect topology and state without hidden writes. Control and structural mutation remain available for deliberate workflows, with separate confirmation flags and provider-side checks.

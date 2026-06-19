@@ -1,8 +1,11 @@
 export const protocolVersion = "1.0.0";
-export const bridgeBundleIdentifier = "ad.blackwattle.homekit";
-export const bridgeAppName = "HomeKit Bridge";
-export const socketFileName = "bridge.sock";
-export const appGroupIdentifier = "group.ad.blackwattle.homekit";
+export const bridgeBundleIdentifier = "com.shahine.homeclaw";
+export const bridgeAppName = "HomeClaw";
+export const bridgeAppStoreUrl =
+  "https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12";
+export const bridgeSourceUrl = "https://github.com/omarshahine/HomeClaw";
+export const socketFileName = "homeclaw.sock";
+export const appGroupIdentifier = "group.com.shahine.homeclaw";
 
 export type BridgeFeature =
   | "status"
@@ -14,7 +17,9 @@ export type BridgeFeature =
   | "zones"
   | "events"
   | "device-map"
-  | "control";
+  | "control"
+  | "webhooks"
+  | "triggers";
 
 export type RpcMethod =
   | "hello"
@@ -32,6 +37,7 @@ export type RpcMethod =
   | "accessories.remove"
   | "scenes.list"
   | "scenes.get"
+  | "scenes.trigger"
   | "scenes.import"
   | "scenes.update"
   | "scenes.delete"
@@ -52,6 +58,17 @@ export type RpcMethod =
   | "rename"
   | "deviceMap.get"
   | "events.list"
+  | "webhooks.status"
+  | "webhooks.setup"
+  | "webhooks.test"
+  | "webhooks.reset"
+  | "webhooks.log"
+  | "webhooks.logStats"
+  | "webhooks.purgeLog"
+  | "triggers.list"
+  | "triggers.add"
+  | "triggers.update"
+  | "triggers.remove"
   | "bridge.stop";
 
 export interface RpcRequest<TParams = Record<string, unknown>> {
@@ -191,6 +208,16 @@ export interface EventSummary {
   message: string;
 }
 
+export interface WebhookTriggerSummary {
+  id: string;
+  label: string;
+  enabled: boolean;
+  events?: string[];
+  accessories?: string[];
+  scenes?: string[];
+  characteristics?: string[];
+}
+
 export interface ControlParams {
   accessoryId: string;
   characteristic: string;
@@ -227,16 +254,35 @@ export function protocolMajorMatches(a: string, b: string): boolean {
   return majorVersion(a) === majorVersion(b);
 }
 
-export function encodeRequest(request: RpcRequest): string {
+export interface HomeClawRequest {
+  command: string;
+  args?: Record<string, unknown>;
+}
+
+export interface HomeClawSuccess<TData = unknown> {
+  success: true;
+  data: TData;
+}
+
+export interface HomeClawFailure {
+  success: false;
+  error: string;
+}
+
+export type HomeClawResponse<TData = unknown> =
+  | HomeClawSuccess<TData>
+  | HomeClawFailure;
+
+export function encodeRequest(request: HomeClawRequest): string {
   return `${JSON.stringify(request)}\n`;
 }
 
-export function decodeResponse<T>(raw: string): RpcResponse<T> {
-  const parsed = JSON.parse(raw) as RpcResponse<T>;
+export function decodeResponse<T>(raw: string): HomeClawResponse<T> {
+  const parsed = JSON.parse(raw) as HomeClawResponse<T>;
   if (
     typeof parsed !== "object" ||
     parsed === null ||
-    typeof parsed.id !== "string"
+    typeof parsed.success !== "boolean"
   ) {
     throw new Error("Invalid bridge response envelope");
   }

@@ -1,52 +1,31 @@
 node_modules/
 dist/
-build/
-DerivedData/
-.build/
-.swiftpm/
-*.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-*.xcuserstate
 .DS_Store
 *.log
 *.sock
 *.local.json
 *.tsbuildinfo
-apps/bridge/BlackwattleHomeKitBridge.xcodeproj/
 
 # Local Codex desktop state. Repo skills live in skills/.
 .codex/
 
 # Agent skill install outputs. Packaged skills live in skills/.
 .agents/
-packages/cli/.agents/
-packages/cli/.claude/
-packages/cli/.codeium/
-packages/cli/.continue/
-packages/cli/.crush/
-packages/cli/.goose/
-packages/cli/.junie/
-packages/cli/.kilocode/
-packages/cli/.kiro/
-packages/cli/.openhands/
-packages/cli/.qwen/
-packages/cli/.roo/
-packages/cli/.trae/
-packages/cli/.windsurf/
+.claude/
+.codeium/
+.continue/
+.crush/
+.goose/
+.junie/
+.kilocode/
+.kiro/
+.openhands/
+.qwen/
+.roo/
+.trae/
+.windsurf/
 
 # Local environment and secrets.
 .env
 .env.*
 !.env.example
-
-# Apple signing, provisioning, notarization, and release artifacts.
-*.cer
-*.p12
-*.certSigningRequest
-*.provisionprofile
-*.mobileprovision
-AuthKey_*.p8
-*.xcarchive/
-*.pkg
-*.app.zip
-ExportOptions.plist

@@ -2,9 +2,7 @@
 
 ## 0.1.0
 
-- Greenfield repo with signed Catalyst bridge app scaffold.
-- Added Incur-based `homekit` CLI and MCP-capable command tree.
-- Added internal bridge protocol types, socket client, actuation guard, and tests.
-- Added docs, runbooks, ADRs, and bundled Codex skills.
-- Documented npm/npx CLI distribution with GitHub Releases for the signed bridge app.
-- Documented full CLI/MCP command coverage, mutation gates, bridge implementation status, and intentional webhook exclusion.
+- Flattened the project into a single `homekit-cli` Node package.
+- Removed native macOS app, signing, provisioning, and release scripts from `main`.
+- Preserved the standalone native bridge implementation on `feat/application`.
+- Kept the CLI/MCP command surface, schemas, docs, examples, and external `npx skills` package for the upcoming provider adapter.

@@ -7,14 +7,14 @@ Use this reference for read-only HomeKit investigation, inventory, mapping, and 
 Start broad, then narrow:
 
 ```bash
-homekit status --json
-homekit device-map --json
-homekit accessories list --json
-homekit rooms list --json
-homekit zones list --json
-homekit scenes list --json
-homekit automations list --json
-homekit events list --limit 100 --json
+homekit status --format json
+homekit device-map --format json
+homekit accessories list --format json
+homekit rooms list --format json
+homekit zones list --format json
+homekit scenes list --format json
+homekit automations list --format json
+homekit events list --limit 100 --format json
 ```
 
 Use `device-map` when an agent needs topology and characteristic names. Use `accessories get`, `scenes get`, or `automations get` when a specific id is known.
@@ -24,8 +24,8 @@ Use `device-map` when an agent needs topology and characteristic names. Use `acc
 Search names first, then inspect exact candidates:
 
 ```bash
-homekit accessories search "<query>" --json
-homekit accessories get <accessoryId> --json
+homekit accessories search "<query>" --format json
+homekit accessories get <accessoryId> --format json
 ```
 
 If more than one candidate could match, stop and ask the user to choose. Do not infer a safety-critical target from a fuzzy name.
@@ -37,31 +37,31 @@ For issues like “unlocking the gate opens the garage”:
 1. Pull recent events:
 
    ```bash
-   homekit events list --limit 200 --json
+   homekit events list --limit 200 --format json
    ```
 
 2. Inspect affected accessories:
 
    ```bash
-   homekit accessories search "gate" --json
-   homekit accessories search "garage" --json
-   homekit accessories get <gateAccessoryId> --json
-   homekit accessories get <garageAccessoryId> --json
+   homekit accessories search "gate" --format json
+   homekit accessories search "garage" --format json
+   homekit accessories get <gateAccessoryId> --format json
+   homekit accessories get <garageAccessoryId> --format json
    ```
 
 3. Inspect scenes and automations:
 
    ```bash
-   homekit scenes list --json
-   homekit automations list --json
-   homekit automations get <automationId> --json
+   homekit scenes list --format json
+   homekit automations list --format json
+   homekit automations get <automationId> --format json
    ```
 
 4. Correlate by timestamp, target accessory id, scene id, automation id, and characteristic. Prefer reporting evidence over guessing.
 
 ## Event Log Use
 
-Use events to prove what the bridge observed, not as the sole source of HomeKit truth. Pair event logs with current `get` output for the affected accessory, scene, or automation.
+Use events to prove what the provider observed, not as the sole source of HomeKit truth. Pair event logs with current `get` output for the affected accessory, scene, or automation.
 
 When reporting, include:
 

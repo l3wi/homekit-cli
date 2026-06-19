@@ -1,48 +1,17 @@
 # First Setup
 
-## User Setup
+This repo is CLI-only. HomeClaw is the entitlement-bearing HomeKit provider.
 
-1. Run setup through npm:
+HomeKit access requires a signed App Store or TestFlight app. A Node CLI cannot hold the HomeKit entitlement or prompt for HomeKit permission itself.
 
-```bash
-npx homekit-cli bridge setup
-```
+1. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), or use HomeClaw's TestFlight build if that is how you are testing.
+2. Approve HomeKit permission in HomeClaw.
+3. Skip HomeClaw's bundled CLI and MCP setup. HomeClaw provides the HomeKit socket; this repo provides the documented CLI/MCP and skills.
+4. Install dependencies with `bun install`.
+5. Build with `bun run build`.
+6. Verify with `node dist/bin.js bridge setup --format json`.
+7. Verify HomeKit visibility with `node dist/bin.js status --format json`.
+8. Inspect CLI help with `bun run dev -- --help`.
+9. Install the local skill with `npx skills add ./skills --skill homekit --copy -y`.
 
-2. Approve any macOS HomeKit permission prompt shown by `HomeKit Bridge.app`.
-3. Verify the bridge:
-
-```bash
-npx homekit-cli status --json
-```
-
-4. Add MCP if needed:
-
-```bash
-npx homekit-cli mcp add
-```
-
-Install the curated workflow skill:
-
-```bash
-npx skills add l3wi/homekit-cli --skill homekit
-```
-
-`bridge setup` is responsible for downloading the signed bridge app from GitHub Releases, verifying it, installing it into `~/Applications`, launching it, and waiting for the socket.
-
-## Development Setup
-
-1. Build or install the signed bridge app.
-2. Open the bridge app once from Xcode or the build script.
-3. Grant HomeKit permission.
-4. Build the CLI:
-
-```bash
-bun run build
-```
-
-5. Verify with the temp socket when using the development profile:
-
-```bash
-HOMEKIT_USE_TMP_SOCKET=1 ./script/build_and_run.sh --verify
-HOMEKIT_USE_TMP_SOCKET=1 node packages/cli/dist/bin.js status --json
-```
+Do not add native signing, provisioning, or app-bundling steps on `main`. That work is preserved on `feat/application`.

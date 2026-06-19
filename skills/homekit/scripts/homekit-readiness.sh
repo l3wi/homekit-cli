@@ -8,11 +8,11 @@ if ! command -v homekit >/dev/null 2>&1; then
 fi
 
 echo "== homekit bridge setup =="
-homekit bridge setup --json
+homekit bridge setup --format json
 
 echo
 echo "== homekit status =="
-homekit status --json
+homekit status --format json
 
 echo
 echo "== homekit bridge logs command =="

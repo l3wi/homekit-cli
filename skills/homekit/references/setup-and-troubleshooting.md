@@ -1,6 +1,12 @@
 # Setup And Troubleshooting
 
-Use this reference when the user asks whether HomeKit Bridge is installed, reachable, permitted by HomeKit, or wired into MCP.
+Use this reference when the user asks whether HomeClaw is installed, reachable, permitted by HomeKit, or wired into MCP.
+
+## Required App
+
+HomeKit access requires a signed App Store or TestFlight app. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit permission.
+
+HomeClaw bundles its own CLI and MCP server, but this skill uses `homekit-cli` instead. Skip HomeClaw's bundled CLI/MCP setup and use `homekit --mcp`, `homekit mcp add`, and this `homekit` skill.
 
 ## Readiness Checks
 
@@ -13,38 +19,28 @@ skills/homekit/scripts/homekit-readiness.sh
 Equivalent manual sequence:
 
 ```bash
-homekit bridge setup --json
-homekit bridge status --json
-homekit status --json
+homekit bridge setup --format json
+homekit bridge status --format json
+homekit status --format json
 ```
 
 Interpretation:
 
-- `bridge setup` should launch `HomeKit Bridge.app`, wait for the Unix socket, perform protocol negotiation, and return capabilities.
-- `status` should show at least one visible home once the app has HomeKit permission.
-- If HomeKit permission is missing, instruct the user to open `HomeKit Bridge.app` directly and approve HomeKit access.
+- `bridge setup` should verify HomeClaw and return capabilities.
+- `status` should show at least one visible home once HomeClaw has HomeKit permission.
+- If HomeKit permission is missing, open HomeClaw directly and approve HomeKit access.
 
-## Socket And App Boundary
+## Provider Boundary
 
-The CLI talks to the signed bridge over a per-user Unix socket. The CLI itself does not hold HomeKit entitlement.
+The CLI itself does not hold HomeKit entitlement. It talks to HomeClaw over its local Unix socket.
 
-Expected socket preference:
-
-```text
-~/Library/Group Containers/group.ad.blackwattle.homekit/bridge.sock
-```
-
-Development fallback:
+Default socket:
 
 ```text
-${TMPDIR}/ad.blackwattle.homekit.sock
+~/Library/Group Containers/group.com.shahine.homeclaw/homeclaw.sock
 ```
 
-Use this only for development:
-
-```bash
-HOMEKIT_USE_TMP_SOCKET=1 homekit status --json
-```
+Use `HOMEKIT_SOCKET_PATH` only when a socket override is needed.
 
 ## Logs
 
@@ -54,7 +50,7 @@ Ask the CLI for the exact log command:
 homekit bridge logs
 ```
 
-Then run the returned `log stream` command when investigating bridge startup, HomeKit permission, socket bind/unlink behavior, protocol mismatch, or rejected writes.
+Run the returned `log stream` command when investigating provider startup, HomeKit permission, protocol mismatch, or rejected writes.
 
 ## MCP Setup
 
@@ -77,12 +73,10 @@ examples/mcp.readonly.example.json
 examples/mcp.write.example.json
 ```
 
-The readonly/write profile label is operator guidance only. Real safety gates are still `allowActuation`, `allowMutation`, exact ids, and bridge-side checks.
+The readonly/write profile label is operator guidance only. Real safety gates are still `allowActuation`, `allowMutation`, exact ids, and provider-side checks.
 
 ## Common Failure Modes
 
-- **Launch Services cannot find app**: install `HomeKit Bridge.app` in `/Applications`, then retry `homekit bridge setup`.
-- **No homes visible**: open the app in the GUI and approve HomeKit permission; confirm the macOS user is in the Home.
-- **Protocol mismatch**: update CLI and bridge together; major protocol versions are lockstep.
-- **Stale socket**: stop the bridge, remove only the expected per-user socket path, relaunch with `homekit bridge launch`.
-- **Permission denied or rejected peer**: confirm the CLI and bridge are running as the same macOS user.
+- **HomeClaw missing**: install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, approve HomeKit permission, then retry `homekit bridge setup`.
+- **No homes visible**: open HomeClaw in the GUI and approve HomeKit permission; confirm the macOS user is in the Home.
+- **Permission denied**: confirm the CLI and HomeClaw run as the same macOS user.

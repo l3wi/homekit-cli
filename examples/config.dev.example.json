@@ -1,5 +1,5 @@
 {
   "env": {
-    "HOMEKIT_USE_TMP_SOCKET": "1"
+    "HOMEKIT_SOCKET_PATH": "/Users/YOU/Library/Group Containers/group.com.shahine.homeclaw/homeclaw.sock"
   }
 }

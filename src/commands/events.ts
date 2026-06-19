@@ -7,10 +7,10 @@ import { eventSummary } from "./schemas.js";
 export function eventsCommand() {
   return Cli.create("events", {
     description:
-      "Inspect the bridge's recent in-memory HomeKit event buffer for troubleshooting state changes and live updates.",
+      "Inspect the provider's recent HomeKit event buffer for troubleshooting state changes and live updates.",
   }).command("list", {
     description:
-      "List recent HomeKit events observed by the bridge. This is read-only.",
+      "List recent HomeKit events observed by the provider. This is read-only.",
     options: z.object({
       limit: z.coerce.number().int().min(1).max(500).default(50),
       since: z.string().optional().describe("ISO timestamp lower bound."),

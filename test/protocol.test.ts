@@ -9,8 +9,8 @@ describe("protocol helpers", () => {
   });
 
   it("encodes newline-delimited JSON requests", () => {
-    expect(encodeRequest({ id: "1", method: "status" })).toBe(
-      '{"id":"1","method":"status"}\n',
+    expect(encodeRequest({ command: "status", args: {} })).toBe(
+      '{"command":"status","args":{}}\n',
     );
   });
 });

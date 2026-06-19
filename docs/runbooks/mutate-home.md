@@ -4,21 +4,21 @@ Use this runbook when changing rooms, zones, scenes, automations, accessory memb
 
 ## Preconditions
 
-1. Confirm the bridge is ready:
+1. Confirm the provider is ready:
 
 ```bash
-homekit status --json
+homekit status --format json
 ```
 
 2. Identify exact targets:
 
 ```bash
-homekit homes list --json
-homekit rooms list --json
-homekit accessories search <query> --json
-homekit scenes list --json
-homekit automations list --json
-homekit zones list --json
+homekit homes list --format json
+homekit rooms list --format json
+homekit accessories search <query> --format json
+homekit scenes list --format json
+homekit automations list --format json
+homekit zones list --format json
 ```
 
 3. Prefer UUIDs over names for mutation targets.
@@ -51,21 +51,15 @@ homekit automations disable <automationId> --allow-mutation
 - Do not use mutation commands for physical actuation; `accessories control` requires `--allow-actuation`.
 - Check the returned `auditId` after every accepted mutation.
 
-## Currently Pending Bridge Implementations
+## Provider Support
 
-These commands are present in CLI/MCP schemas but currently return `NOT_IMPLEMENTED`:
-
-- `homekit scenes import`
-- `homekit scenes update`
-- `homekit automations create`
-- `homekit automations create-time`
-- `homekit automations add-condition`
-
-Use the implemented mutation commands for now:
+Use mutation commands only after checking provider capabilities and exact schemas:
 
 - room create, rename, remove, assign
 - zone create, remove, add-room, remove-room
-- scene delete
-- automation delete, enable, disable, rewire
+- scene trigger, import, update, delete
+- automation create, create-time, delete, enable, disable, rewire, add-condition
 - accessory remove
+- webhook setup, reset, purge-log
+- trigger add, update, remove
 - generic rename

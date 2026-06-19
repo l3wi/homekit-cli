@@ -2,6 +2,7 @@ import { Cli, z } from "incur";
 import type { MutationResult, SceneSummary } from "../protocol.js";
 
 import { BridgeClient } from "../lib/bridge-client.js";
+import { requireActuationAllowed } from "../lib/actuation.js";
 import { requireMutationAllowed } from "../lib/mutation.js";
 import {
   homeOption,
@@ -66,6 +67,27 @@ export function scenesCommand() {
       async run(c) {
         requireMutationAllowed(c.options.allowMutation);
         return new BridgeClient().call<MutationResult>("scenes.import", {
+          ...c.args,
+          ...c.options,
+        });
+      },
+    })
+    .command("trigger", {
+      description:
+        "Run a HomeKit scene. Requires --allow-actuation because scene actions may change physical devices.",
+      args: z.object({
+        sceneId: z.string().describe("Scene UUID or exact name."),
+      }),
+      options: homeOption.extend({
+        allowActuation: z
+          .boolean()
+          .default(false)
+          .describe("Required. Confirms physical devices may change."),
+      }),
+      output: mutationResult,
+      async run(c) {
+        requireActuationAllowed(c.options.allowActuation);
+        return new BridgeClient().call<MutationResult>("scenes.trigger", {
           ...c.args,
           ...c.options,
         });

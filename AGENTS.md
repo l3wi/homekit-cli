@@ -6,5 +6,5 @@ This repo controls physical HomeKit devices. Default to read-only inspection.
 - Treat locks, garage doors, covers, thermostats, security systems, cameras, occupancy, presence, scenes, and automations as sensitive.
 - Prefer `--json` for machine-readable command output.
 - Never print secrets or unsanitized HomeKit snapshots into durable docs.
-- Keep the signed bridge app as the only HomeKit-entitled process.
+- Keep entitlement-bearing HomeKit access outside this Node package.
 - Do not add legacy HomeClaw surfaces unless explicitly requested.

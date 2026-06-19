@@ -8,6 +8,10 @@ homekit mcp add
 homekit --llms
 ```
 
+HomeClaw must be installed first because HomeKit requires an entitlement-bearing App Store or TestFlight app. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit permission.
+
+Skip HomeClaw's bundled CLI and MCP setup. It owns native HomeKit access; this package owns the documented MCP surface, command schemas, examples, and skills.
+
 Recommended MCP setup:
 
 ```json
@@ -26,7 +30,7 @@ Example files:
 - `examples/mcp.readonly.example.json`: recommended default profile for inspection-first agents.
 - `examples/mcp.write.example.json`: write-capable profile for agents that may pass explicit `allowActuation=true` or `allowMutation=true`.
 
-Both examples expose the same MCP server. HomeKit writes are still gated by command schemas and bridge-side checks; the profile label is for agent/operator clarity, not a permission bypass.
+Both examples expose the same MCP server. HomeKit writes are still gated by command schemas and provider-side checks; the profile label is for agent/operator clarity, not a permission bypass.
 
 For users installing through npm, setup should be:
 
@@ -63,4 +67,4 @@ npx skills add ./skills --skill homekit --copy -y
 
 The skill covers setup, inspection, read-only inventory, explicit writes, scenes, automations, and safety checks. Use `homekit --llms` or `homekit <command> --schema --format json` for command-reference details instead of relying on generated skill text. The internal Incur `homekit skills` command is disabled for this package.
 
-Webhook triggers are not part of the MCP surface.
+Webhook and trigger commands are part of the MCP surface. Webhook setup, reset, purge, and trigger mutations require `allowMutation`.

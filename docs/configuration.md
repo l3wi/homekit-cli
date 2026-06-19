@@ -1,43 +1,35 @@
 # Configuration
 
-Environment variables:
+`main` is a CLI-only package over HomeClaw. It does not contain native app signing, provisioning, notarization, or app-group configuration.
 
-- `HOMEKIT_SOCKET_PATH`: override the Unix socket path.
-- `HOMEKIT_APP_GROUP_IDENTIFIER`: override the app group container identifier.
-- `HOMEKIT_USE_TMP_SOCKET=1`: use `${TMPDIR}/ad.blackwattle.homekit.sock` for development.
-- `HOMEKIT_MCP_PROFILE=readonly|write`: operator-facing MCP profile label. This does not bypass `allowActuation` or `allowMutation`.
-- `HOMEKIT_DEVELOPMENT_TEAM`: Apple Developer Team ID for local development signing.
-- `HOMEKIT_PROVISIONING_PROFILE_SPECIFIER`: local development provisioning profile name or UUID.
-- `HOMEKIT_TEAM_ID`: Apple Developer Team ID for Developer ID release signing.
-- `HOMEKIT_DISTRIBUTION_PROFILE_SPECIFIER`: Developer ID provisioning profile name or UUID.
-- `HOMEKIT_DEVELOPER_ID_APPLICATION`: full Developer ID Application certificate name.
-- `HOMEKIT_DEVELOPER_ID_INSTALLER`: full Developer ID Installer certificate name.
-- `HOMEKIT_NOTARY_KEYCHAIN_PROFILE`: notarytool keychain profile.
-- `HOMEKIT_SKIP_NOTARY=1`: debug release script without notarization. Do not publish skipped-notary artifacts.
+## HomeClaw Prerequisite
 
-Copy `.env.example` to `.env.local` and fill local signing values there. `.env` and `.env.local` are ignored by git.
+HomeKit access requires a signed App Store or TestFlight app. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit permission.
 
-Production default socket path is the app group container:
+HomeClaw bundles its own CLI and MCP server, but this project intentionally skips those surfaces. Use this package's `homekit` CLI, `homekit --mcp`, docs, schemas, and `npx skills` package instead.
 
-```text
-~/Library/Group Containers/group.ad.blackwattle.homekit/bridge.sock
-```
+## Environment
 
-Development fallback:
+- `HOMEKIT_SOCKET_PATH`: optional HomeClaw socket override.
+- `HOMEKIT_USE_LEGACY_TMP_SOCKET=1`: use `/tmp/homeclaw.sock` instead of the App Group socket.
+- `HOMEKIT_MCP_PROFILE`: optional operator label for MCP profile intent, such as `readonly` or `write`.
+
+Safety is controlled by command flags, not by environment:
+
+- physical actuation requires `--allow-actuation`
+- structural mutations require `--allow-mutation`
+
+## HomeClaw Socket
+
+Default socket path:
 
 ```text
-${TMPDIR}/ad.blackwattle.homekit.sock
+~/Library/Group Containers/group.com.shahine.homeclaw/homeclaw.sock
 ```
 
-## Development Signing
-
-Local development can use a HomeKit-only provisioning profile and the temp socket path:
+Install and launch HomeClaw once, approve HomeKit permission, then run:
 
 ```bash
-cp .env.example .env.local
-$EDITOR .env.local
-HOMEKIT_USE_TMP_SOCKET=1 ./script/build_and_run.sh --verify
-HOMEKIT_USE_TMP_SOCKET=1 npx homekit-cli status
+homekit bridge setup --format json
+homekit status --format json
 ```
-
-Production bridge releases should include the App Group entitlement and use the app group socket path.
