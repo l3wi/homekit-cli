@@ -1,0 +1,40 @@
+{
+  "name": "homekit-cli-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/l3wi/homekit-cli.git"
+  },
+  "homepage": "https://github.com/l3wi/homekit-cli#readme",
+  "bugs": {
+    "url": "https://github.com/l3wi/homekit-cli/issues"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter homekit-cli build",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "bridge:generate": "cd apps/bridge && xcodegen generate",
+    "bridge:build:unsigned": "cd apps/bridge && xcodegen generate && xcodebuild -project BlackwattleHomeKitBridge.xcodeproj -scheme BlackwattleHomeKitBridge -configuration Debug -destination 'platform=macOS,variant=Mac Catalyst' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build",
+    "bridge:install-profile": "./script/install_provisioning_profile.sh",
+    "bridge:verify-release-signing": "./script/verify_release_signing.sh",
+    "bridge:release": "./script/release_bridge.sh"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "@types/node": "^22.10.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

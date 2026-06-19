@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "homekit": {
+      "command": "homekit",
+      "args": ["--mcp"],
+      "env": {
+        "HOMEKIT_MCP_PROFILE": "readonly"
+      }
+    }
+  }
+}

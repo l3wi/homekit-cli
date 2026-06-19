@@ -1,0 +1,5 @@
+{
+  "env": {
+    "HOMEKIT_USE_TMP_SOCKET": "1"
+  }
+}
