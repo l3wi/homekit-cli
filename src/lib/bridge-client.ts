@@ -69,7 +69,7 @@ export class BridgeClient {
   constructor(options: BridgeClientOptions = {}) {
     this.socketPath = options.socketPath ?? resolveSocketPath();
     this.clientName = options.clientName ?? "homekit-cli";
-    this.clientVersion = options.clientVersion ?? "0.1.0";
+    this.clientVersion = options.clientVersion ?? "0.1.1";
     this.autoLaunch = options.autoLaunch ?? true;
     this.launchTimeoutMs = options.launchTimeoutMs ?? 7_500;
   }
@@ -612,7 +612,7 @@ export function bridgeInstallHint() {
     sourceUrl: bridgeSourceUrl,
     socketPath: resolveSocketPath(),
     setup:
-      "Install HomeClaw from the Mac App Store or TestFlight, launch it once, grant HomeKit access, then run `homekit bridge setup`. Skip HomeClaw's bundled CLI and MCP setup; use this package's `homekit` CLI, MCP server, docs, and skills.",
+      "Install HomeClaw from the Mac App Store or TestFlight, launch it once, grant HomeKit access, then run `npx -y homekit-cli bridge setup`. Skip HomeClaw's bundled CLI and MCP setup; use this package's CLI, MCP server, docs, and skills.",
   };
 }
 
@@ -622,7 +622,7 @@ function homeClawRequiredMessage(socketPath: string) {
     "Install HomeClaw from the Mac App Store or TestFlight, launch it once, approve HomeKit permission, then retry.",
     `App Store: ${bridgeAppStoreUrl}`,
     `Expected socket: ${socketPath}`,
-    "HomeClaw bundles its own CLI and MCP server, but this package intentionally does not use them. Skip HomeClaw's CLI/MCP setup and use `homekit-cli` for agent docs, schemas, skills, and MCP.",
+    "HomeClaw bundles its own CLI and MCP server, but this package intentionally does not use them. Skip HomeClaw's CLI/MCP setup and use `npx -y homekit-cli` for agent docs, schemas, skills, and MCP.",
   ].join(" ");
 }
 

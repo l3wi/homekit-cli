@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Standardized published setup docs around `npx -y homekit-cli` and optional global `homekit`.
+- Made MCP defaults and examples use `npx -y homekit-cli --mcp` so setup works without a global install.
+- Included docs, examples, and the curated `homekit` skill in the npm package.
+
 ## 0.1.0
 
 - Flattened the project into a single `homekit-cli` Node package.

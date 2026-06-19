@@ -11,7 +11,7 @@ npx -y homekit-cli --mcp
 Register MCP without a global install:
 
 ```bash
-npx homekit-cli mcp add
+npx -y homekit-cli mcp add
 ```
 
 If installed globally:
@@ -32,8 +32,8 @@ Recommended MCP setup:
 {
   "mcpServers": {
     "homekit": {
-      "command": "homekit",
-      "args": ["--mcp"]
+      "command": "npx",
+      "args": ["-y", "homekit-cli", "--mcp"]
     }
   }
 }
@@ -49,8 +49,8 @@ Both examples expose the same MCP server. HomeKit writes are still gated by comm
 For users running through npm without a global install, setup should be:
 
 ```bash
-npx homekit-cli bridge setup
-npx homekit-cli mcp add
+npx -y homekit-cli bridge setup
+npx -y homekit-cli mcp add
 ```
 
 The MCP server command without a global install is:
@@ -79,6 +79,6 @@ Local development from the repo root:
 npx skills add ./skills --skill homekit --copy -y
 ```
 
-The skill covers setup, inspection, read-only inventory, explicit writes, scenes, automations, and safety checks. Use `homekit --llms` or `homekit <command> --schema --format json` for command-reference details instead of relying on generated skill text. The internal Incur `homekit skills` command is disabled for this package.
+The skill covers setup, inspection, read-only inventory, explicit writes, scenes, automations, and safety checks. Use `npx -y homekit-cli --llms` or `npx -y homekit-cli <command> --schema --format json` for command-reference details instead of relying on generated skill text. The internal Incur `homekit skills` command is disabled for this package.
 
 Webhook and trigger commands are part of the MCP surface. Webhook setup, reset, purge, and trigger mutations require `allowMutation`.

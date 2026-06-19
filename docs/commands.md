@@ -126,10 +126,14 @@ The command group is still named `bridge` for CLI continuity, but on `main` it r
 
 ## MCP And Agent Discovery
 
-- `homekit --mcp`: start MCP stdio server.
-- `homekit mcp add`: register the MCP server.
-- `homekit --llms`: print LLM-readable command manifest.
-- `homekit <command> --schema --format json`: inspect a command schema.
+Run without installing globally:
+
+- `npx -y homekit-cli --mcp`: start MCP stdio server.
+- `npx -y homekit-cli mcp add`: register the MCP server.
+- `npx -y homekit-cli --llms`: print LLM-readable command manifest.
+- `npx -y homekit-cli <command> --schema --format json`: inspect a command schema.
+
+After `npm i -g homekit-cli`, the installed binary is `homekit`, so the equivalent commands are `homekit --mcp`, `homekit mcp add`, and `homekit --llms`.
 
 The internal Incur `homekit skills` command is disabled for this package. Install the curated workflow skill with:
 

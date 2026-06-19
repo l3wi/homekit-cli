@@ -27,7 +27,7 @@ export function bridgeCommand() {
             socketPath: client.socketPath,
             reachable: true,
             capabilities,
-            mcp: { command: "homekit", args: ["--mcp"] },
+            mcp: { command: "npx", args: ["-y", "homekit-cli", "--mcp"] },
             skills: {
               command: "npx",
               args: ["skills", "add", "l3wi/homekit-cli", "--skill", "homekit"],

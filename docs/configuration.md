@@ -8,6 +8,8 @@ HomeKit access requires a signed App Store or TestFlight app. Install [HomeClaw 
 
 HomeClaw bundles its own CLI and MCP server, but this project intentionally skips those surfaces. Use this package's `homekit` CLI, `homekit --mcp`, docs, schemas, and `npx skills` package instead.
 
+Run published commands with `npx -y homekit-cli ...`, or install globally with `npm i -g homekit-cli` and then use the `homekit` binary.
+
 ## Environment
 
 - `HOMEKIT_SOCKET_PATH`: optional HomeClaw socket override.
@@ -30,6 +32,6 @@ Default socket path:
 Install and launch HomeClaw once, approve HomeKit permission, then run:
 
 ```bash
-homekit bridge setup --format json
-homekit status --format json
+npx -y homekit-cli bridge setup --format json
+npx -y homekit-cli status --format json
 ```

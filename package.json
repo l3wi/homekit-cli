@@ -1,6 +1,6 @@
 {
   "name": "homekit-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -19,6 +19,9 @@
     "dist/**/*.d.ts.map",
     "dist/**/*.js",
     "dist/**/*.js.map",
+    "docs",
+    "examples",
+    "skills",
     "README.md",
     "LICENSE"
   ],

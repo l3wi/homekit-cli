@@ -15,7 +15,7 @@ import { webhooksCommand } from "./commands/webhooks.js";
 import { zonesCommand } from "./commands/zones.js";
 
 export const cli = Cli.create("homekit", {
-  version: "0.1.0",
+  version: "0.1.1",
   description:
     "Use homekit-cli safely for HomeKit setup, inspection, read-only inventory, explicit device control, structural mutations, scenes, automations, MCP setup, and troubleshooting.",
   env: z.object({
@@ -35,7 +35,7 @@ export const cli = Cli.create("homekit", {
       ),
   }),
   mcp: {
-    command: "homekit --mcp",
+    command: "npx -y homekit-cli --mcp",
   },
 })
   .command(statusCommand())

@@ -8,7 +8,7 @@ HomeClaw owns Apple’s HomeKit entitlement, HomeKit permission prompt, and nati
 
 Apple HomeKit access is entitlement-gated. A normal Node process cannot directly use `HMHomeManager`, prompt for HomeKit permission, or read the Home database. `homekit-cli` keeps Node on the agent/tooling side and talks to HomeClaw over its local Unix socket.
 
-That means a signed App Store or TestFlight app is a hard prerequisite. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit access before running `homekit-cli`.
+That means a signed App Store or TestFlight app is a hard prerequisite. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit access before running `npx homekit-cli` or the global `homekit` binary.
 
 HomeClaw also bundles its own CLI and MCP server. Skip setup for those bundled surfaces; this repo provides the documented `homekit` CLI, MCP server, schemas, and external `npx skills` workflow.
 
@@ -28,11 +28,11 @@ flowchart LR
 
 Install and launch [HomeClaw](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12) first, then approve HomeKit permission in HomeClaw. Do not configure HomeClaw's bundled CLI or MCP server.
 
-Run without installing:
+Run without installing globally:
 
 ```bash
-npx homekit-cli bridge setup --format json
-npx homekit-cli status --format json
+npx -y homekit-cli bridge setup --format json
+npx -y homekit-cli status --format json
 ```
 
 Or install globally:

@@ -6,7 +6,7 @@ Use this reference when the user asks whether HomeClaw is installed, reachable, 
 
 HomeKit access requires a signed App Store or TestFlight app. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, and approve HomeKit permission.
 
-HomeClaw bundles its own CLI and MCP server, but this skill uses `homekit-cli` instead. Skip HomeClaw's bundled CLI/MCP setup and use `homekit --mcp`, `homekit mcp add`, and this `homekit` skill.
+HomeClaw bundles its own CLI and MCP server, but this skill uses `homekit-cli` instead. Skip HomeClaw's bundled CLI/MCP setup and use `npx -y homekit-cli`, `npx -y homekit-cli --mcp`, and this `homekit` skill.
 
 ## Readiness Checks
 
@@ -19,9 +19,9 @@ skills/homekit/scripts/homekit-readiness.sh
 Equivalent manual sequence:
 
 ```bash
-homekit bridge setup --format json
-homekit bridge status --format json
-homekit status --format json
+npx -y homekit-cli bridge setup --format json
+npx -y homekit-cli bridge status --format json
+npx -y homekit-cli status --format json
 ```
 
 Interpretation:
@@ -57,13 +57,19 @@ Run the returned `log stream` command when investigating provider startup, HomeK
 Register MCP:
 
 ```bash
-homekit mcp add
+npx -y homekit-cli mcp add
 ```
 
 Run MCP directly:
 
 ```bash
-homekit --mcp
+npx -y homekit-cli --mcp
+```
+
+Install this workflow skill:
+
+```bash
+npx skills add l3wi/homekit-cli --skill homekit
 ```
 
 Use the example configs in the repo:
@@ -77,6 +83,6 @@ The readonly/write profile label is operator guidance only. Real safety gates ar
 
 ## Common Failure Modes
 
-- **HomeClaw missing**: install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, approve HomeKit permission, then retry `homekit bridge setup`.
+- **HomeClaw missing**: install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), launch it once, approve HomeKit permission, then retry `npx -y homekit-cli bridge setup`.
 - **No homes visible**: open HomeClaw in the GUI and approve HomeKit permission; confirm the macOS user is in the Home.
 - **Permission denied**: confirm the CLI and HomeClaw run as the same macOS user.

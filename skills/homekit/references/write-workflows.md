@@ -63,6 +63,14 @@ homekit scenes get <sceneId> --format json
 
 Mutations require `--allow-mutation`. HomeClaw may return unsupported-operation errors for some operations; report that directly.
 
+Running a scene is physical actuation because it can change multiple devices:
+
+```bash
+homekit scenes trigger <sceneId> --allow-actuation --format json
+```
+
+Before triggering a scene, inspect it with `scenes get` and name any safety-critical accessories it may affect.
+
 ## Automations
 
 Prefer disable before delete when remediation is uncertain:

@@ -7,8 +7,8 @@ HomeKit access requires a signed App Store or TestFlight app. A Node CLI cannot 
 1. Install [HomeClaw from the Mac App Store](https://apps.apple.com/us/app/homeclaw/id6759682551?mt=12), or use HomeClaw's TestFlight build if that is how you are testing.
 2. Approve HomeKit permission in HomeClaw.
 3. Skip HomeClaw's bundled CLI and MCP setup. HomeClaw provides the HomeKit socket; this repo provides the documented CLI/MCP and skills.
-4. Verify with `npx homekit-cli bridge setup --format json`.
-5. Verify HomeKit visibility with `npx homekit-cli status --format json`.
+4. Verify with `npx -y homekit-cli bridge setup --format json`.
+5. Verify HomeKit visibility with `npx -y homekit-cli status --format json`.
 6. Install the workflow skill with `npx skills add l3wi/homekit-cli --skill homekit`.
 
 Optional global install:
